@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vulnerable CSRF App</title>
+</head>
+
+<body>
+    <h1>Welcome to our vulnerable CSRF app!</h1>
+    <form action="/transfer" method="post" id="transfer-form">
+        <label for="amount">Transfer Amount:</label>
+        <input type="number" id="amount" name="amount" value="1000">
+        <input type="submit" value="Transfer Money">
+    </form>
+
+    <h2>Current Balance: $<span id="balance">1000</span></h2>
+    <script>
+        document.getElementById('transfer-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const amount = document.getElementById('amount').value;
+            transferMoney(amount);
+        });
+
+        // Function to send the transfer request
+        function transferMoney(amount) {
+            fetch('http://localhost:8080/transfer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `amount=${amount}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('balance').innerText = data.balance;
+            })
+            .catch(error => {
+                console.error('Error fetching balance:', error);
+            });
+        }
+
+        displayBalance();
+
+        function displayBalance() {
+            fetch('http://localhost:8080/transfer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('balance').innerText = data.balance;
+            })
+            .catch(error => {
+                console.error('Error fetching balance:', error);
+            });
+        }
+    </script>
+</body>
+
+</html>

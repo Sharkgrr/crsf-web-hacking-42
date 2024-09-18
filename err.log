@@ -1,0 +1,8 @@
+Network ex01_default  Removing
+Network ex01_default  Removed
+Network ex01_default  Creating
+Network ex01_default  Created
+Container ex01-app-1  Creating
+Container ex01-app-1  Created
+Container ex01-app-1  Starting
+Container ex01-app-1  Started
